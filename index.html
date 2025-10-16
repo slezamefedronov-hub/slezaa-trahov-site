@@ -14,12 +14,20 @@
       --radius:18px; --shadow:0 10px 30px rgba(0,0,0,.35);
     }
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
+    /* ===== Lock page to vertical scroll only & safe-areas ===== */
+    html,body{
+      margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;
+      height:100%; overflow-x:hidden; overscroll-behavior:none;
+    }
+    body, .container, .card, .grid, header, main, section, footer{ touch-action: pan-y; }
+    img, svg, video, canvas{ max-width:100%; height:auto; }
     a{color:inherit;text-decoration:none}
     .container{max-width:1100px;margin:0 auto;padding:24px}
 
     header{position:sticky;top:0;backdrop-filter:saturate(160%) blur(10px);
-      background:rgba(10,10,10,.7);z-index:10;border-bottom:1px solid var(--border)}
+      background:rgba(10,10,10,.7);z-index:10;border-bottom:1px solid var(--border);
+      padding-top: env(safe-area-inset-top);
+    }
     .nav{display:flex;align-items:center;justify-content:space-between;gap:16px}
     .logo{display:flex;align-items:center;gap:10px;font-weight:800}
     .logo-badge{width:34px;height:34px;border-radius:12px;background:linear-gradient(135deg,#fff,#d9d9d9);
@@ -63,6 +71,30 @@
 
     footer{margin:30px 0;color:#bdbdbd;text-align:center;font-size:13px}
     aside.contacts{align-self:start;margin-top:48px}
+
+    /* ===== Responsive grids for services/portfolio/process ===== */
+    #services,
+    #portfolio .grid{ grid-template-columns: repeat(3, minmax(0,1fr)); }
+    #portfolio .grid{ gap:16px; } /* как в исходнике */
+    @media (max-width: 900px){
+      #services,
+      #portfolio .grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+    }
+    @media (max-width: 600px){
+      #services,
+      #portfolio .grid{ grid-template-columns: 1fr; }
+    }
+
+    /* Process section */
+    #process .grid{ grid-template-columns: repeat(4, minmax(0,1fr)); gap:16px; }
+    #process .grid > div{ display:flex; align-items:flex-start; gap:10px; }
+    #process .grid > div .tag{ min-width:36px; height:36px; display:grid; place-items:center; margin-top:2px; }
+    #process .grid > div p{ margin:0; line-height:1.25; word-break:break-word; hyphens:auto; }
+    @media (max-width: 900px){ #process .grid{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
+    @media (max-width: 600px){ #process .grid{ grid-template-columns: 1fr; } }
+
+    /* Типографика карточек на узких экранах */
+    .card p, .card .tag, .service div{ word-break: break-word; hyphens: auto; }
 
     /* Мобильные улучшения */
     @media (max-width: 768px){
@@ -123,11 +155,11 @@
     <aside class="card p-24 contacts">
       <h2 class="section-title">Контакты</h2>
       <p class="muted" style="margin:0 0 16px">Связь и обсуждение деталей — в Telegram.</p>
-      <a class="btn" style="margin-top:16px;display:inline-flex" href="https://t.me/TAMHETCBETA" target="_blank" rel="noopener">@slezaa_trahov</a>
+      <a class="btn" style="margin-top:16px;display:inline-flex" href="https://t.me/TAMHETCBETA" target="_blank" rel="noopener">@TAMHETCBETA</a>
     </aside>
   </main>
 
-  <section id="services" class="container grid" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+  <section id="services" class="container grid">
     <div class="service card p-24">
       <div class="icon" aria-hidden="true">
         <!-- Игровые скрипты: геймпад -->
@@ -178,7 +210,7 @@
   <section id="portfolio" class="container card p-24">
     <h2 class="section-title">Портфолио</h2>
     <p class="muted">Примеры по запросу — показываю в личке.</p>
-    <div class="grid" style="grid-template-columns:repeat(3,minmax(0,1fr));gap:16px">
+    <div class="grid">
       <div class="card p-24"><div class="tag">Скрипты</div><p class="muted">Auto‑Farm / Utility • JS/Lua</p></div>
       <div class="card p-24"><div class="tag">Скрипты</div><p class="muted">Anti‑AFK + Notify • Python Bot API</p></div>
       <div class="card p-24"><div class="tag">Дизайн</div><p class="muted">UI‑пак для лаунчера • Figma</p></div>
@@ -190,7 +222,7 @@
 
   <section id="process" class="container card p-24">
     <h2 class="section-title">Как работаю</h2>
-    <div class="grid" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+    <div class="grid">
       <div><div class="tag">1</div><p><b>Заявка</b><br><span class="muted">Короткий бриф/звонок.</span></p></div>
       <div><div class="tag">2</div><p><b>Оценка</b><br><span class="muted">Сроки и объём в личке.</span></p></div>
       <div><div class="tag">3</div><p><b>Разработка</b><br><span class="muted">Итерации, доступ к демо.</span></p></div>
